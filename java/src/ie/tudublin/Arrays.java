@@ -16,6 +16,8 @@ public class Arrays extends PApplet
 	int mode = 0;
 	boolean lock = true;
 
+
+
 	public float map1(float a, float b, float c, float d, float e)
 	{
 		float r1 = c -b;
@@ -186,6 +188,36 @@ public class Arrays extends PApplet
 				}	
 				// lock = false;
 				break;
+			}
+			case 3:
+				{
+				background(0);
+				stroke(255);
+				fill(255);
+				// title
+				textAlign(CENTER,CENTER);
+				text("Rainfall Pie Chart", width / 2, (height * .1f) / 2);
+				//
+				int center_width = width / 2;
+				int center_height = height / 2;
+
+				float total_angle = 0;
+
+				float sum = 0;
+				for(int i = 0 ; i < rainfall.length;  i++){
+					sum += rainfall[i];
+				}
+				
+				for(int i = 0 ; i < months.length;  i ++){
+					fill(i * (255 / rainfall.length),255,255);
+
+					float angle = map(rainfall[i], 0, sum, 0, TWO_PI);
+					arc(center_width,center_height,width / 2, height / 2, total_angle, angle + total_angle);
+					total_angle += angle;
+
+					fill(255);
+					text(months[i],center_width + cos((angle + total_angle) / 2) * 150,center_height + sin((angle + total_angle) / 2) * 150);
+				}
 			}
 		}
 	}
