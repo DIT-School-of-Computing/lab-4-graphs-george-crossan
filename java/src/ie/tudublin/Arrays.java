@@ -14,6 +14,7 @@ public class Arrays extends PApplet
 	int minIndex;
 
 	int mode = 0;
+	boolean lock = true;
 
 	public float map1(float a, float b, float c, float d, float e)
 	{
@@ -33,7 +34,7 @@ public class Arrays extends PApplet
 
 	public void settings()
 	{
-		size(700, 700);
+		size(500, 500);
 
 		String[] m1 = months;
 		// months[0] = "XXX";
@@ -110,9 +111,10 @@ public class Arrays extends PApplet
 
 		switch (mode) {
 			case 0:
+				{
 				background(0);
 				stroke(255);
-				float chart_width = width - (width * .10f);
+				float chart_width = width * .9f;
 				int scale = Math.round(rainfall[maxIndex] / 12);
 				line(40,chart_width - ((11 + 1)* scale),40,chart_width);
 				line(40,chart_width,chart_width,chart_width);
@@ -142,13 +144,49 @@ public class Arrays extends PApplet
 					rect(x, chart_width, w, -rainfall[i]);
 				}
 				break;
+			}
 			case 1:
+				{
 				background(0);
+				stroke(255);
+				fill(255);
+				//width
+				float chart_width = width * .9f;
+				float space_width = width * .1f;
+				//height
+				float chart_height = height * .9f;
+				float space_height = height * .1f;
+				// x and y axis
+				line(space_width,space_height,space_width,chart_height);
+				line(space_width,chart_height,chart_width,chart_height);
+				// title
+				textAlign(CENTER,CENTER);
+				text("Rainfall Trend Chart", width / 2, space_height / 2);
+	
+				for(int i = 0 ; i < months.length;  i++){
+					//ticks
+					float tick_height = map1(i + 1, 0, months.length, chart_height, space_height);
+					line(space_width, tick_height,space_width - 10, tick_height);
+					// numbers
+					int line_val = (int) map1(i + 1, 0, months.length,0,(float) rainfall[maxIndex]);
+					text(line_val,space_width - 20, tick_height);
+					//months
+					float point_width = map1(i, 0, months.length,space_width,chart_width) + 25;
+					text(months[i],point_width,chart_height + 10);
+					//points
+					if(i != 0){
+						float point_height = map1(rainfall[i], 0, rainfall[maxIndex], chart_height,space_height);
 
+						// height and width of last point
+						float previous_point_width = map1(i-1, 0, months.length,space_width,chart_width) + 25;
+						float previous_point_height = map1(rainfall[i-1], 0, rainfall[maxIndex], chart_height,space_height);
 
-
-				
+						line(previous_point_width,previous_point_height,point_width,point_height);
+					}
+				}	
+				// lock = false;
 				break;
+			}
 		}
 	}
 }
