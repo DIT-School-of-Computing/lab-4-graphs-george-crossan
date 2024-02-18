@@ -13,6 +13,8 @@ public class Arrays extends PApplet
 	int maxIndex;
 	int minIndex;
 
+	int mode = 0;
+
 	public float map1(float a, float b, float c, float d, float e)
 	{
 		float r1 = c -b;
@@ -31,10 +33,10 @@ public class Arrays extends PApplet
 
 	public void settings()
 	{
-		size(500, 500);
+		size(700, 700);
 
 		String[] m1 = months;
-		months[0] = "XXX";
+		// months[0] = "XXX";
 		print(m1[0]);
 		for(int i = 0; i < months.length; i ++)
 		{
@@ -95,33 +97,58 @@ public class Arrays extends PApplet
 		
 	}
 
+	public void keyPressed() {
+		if (key >= '0' && key <= '9') {
+			mode = key - '0';
+		}
+		println(mode);
+	}
+
 	
 	public void draw()
 	{	
 
-		background(0);
-		stroke(255);
-		line(40,50,40,450);
-		line(40,450,450,450);
-		int chart_width = 400;
+		switch (mode) {
+			case 0:
+				background(0);
+				stroke(255);
+				float chart_width = width - (width * .10f);
+				int scale = Math.round(rainfall[maxIndex] / 12);
+				line(40,chart_width - ((11 + 1)* scale),40,chart_width);
+				line(40,chart_width,chart_width,chart_width);
+
+				
+				line(30,chart_width,40,chart_width);
+				textAlign(CENTER,CENTER);
+				fill(255);
+				text(0,20,chart_width);
+
+				float w = chart_width / (float)months.length;
+				for(int i = 0 ; i < months.length;  i ++)
+				{
+					// graph ticks and numbers
+					line(30,chart_width - ((i + 1) * scale) ,40,chart_width - ((i + 1) * scale));
+					textAlign(CENTER,CENTER);
+					fill(255);
+					text((i + 1)* scale,20,chart_width - ((i + 1)* scale));
+
+					float x = map1(i, 0, months.length, 40, chart_width);
+					
+					// month names
+					text(months[i],x + (w/2),chart_width + 10);
+					
+					// graph bars
+					fill(i * (255 / rainfall.length),255,255);
+					rect(x, chart_width, w, -rainfall[i]);
+				}
+				break;
+			case 1:
+				background(0);
 
 
-		int scale = 30;
-		float increase = 30;
 
-		for (int i = 0; i <= 15; i++){
-			line(30,450 - (i * increase),40,450 - (i * increase));
-			textAlign(CENTER,CENTER);
-			fill(255);
-			text(i * scale,20,450 - (i * increase));
-		}
-
-		float w = chart_width / (float)months.length;
-		for(int i = 0 ; i < months.length ;  i ++)
-		{
-			fill(255,255,255);
-			float x = map1(i, 0, months.length, 40, 450);
-			rect(x, 450, w, -rainfall[i]);
+				
+				break;
 		}
 	}
 }
