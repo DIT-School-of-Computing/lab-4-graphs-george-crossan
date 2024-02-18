@@ -10,6 +10,9 @@ public class Arrays extends PApplet
 
 	float[] rainfall = {200, 260, 300, 150, 100, 50, 10, 40, 67, 160, 400, 420};
 
+	int maxIndex;
+	int minIndex;
+
 	public float map1(float a, float b, float c, float d, float e)
 	{
 		float r1 = c -b;
@@ -41,7 +44,7 @@ public class Arrays extends PApplet
 			println(s);
 		}
 
-		int minIndex = 0;
+		minIndex = 0;
 		for(int i= 0 ; i < rainfall.length ; i ++)
 		{
 			if (rainfall[i] < rainfall[minIndex])
@@ -50,7 +53,7 @@ public class Arrays extends PApplet
 			}
 		}
 		
-		int maxIndex = 0;
+		maxIndex = 0;
 		for(int i= 0 ; i < rainfall.length ; i ++)
 		{
 			if (rainfall[i] > rainfall[maxIndex])
@@ -87,7 +90,7 @@ public class Arrays extends PApplet
 	public void setup() {
 		colorMode(HSB);
 		background(0);
-		randomize();
+		// randomize();
 		
 		
 	}
@@ -97,11 +100,28 @@ public class Arrays extends PApplet
 	{	
 
 		background(0);
-		float w = width / (float)months.length;
+		stroke(255);
+		line(40,50,40,450);
+		line(40,450,450,450);
+		int chart_width = 400;
+
+
+		int scale = 30;
+		float increase = 30;
+
+		for (int i = 0; i <= 15; i++){
+			line(30,450 - (i * increase),40,450 - (i * increase));
+			textAlign(CENTER,CENTER);
+			fill(255);
+			text(i * scale,20,450 - (i * increase));
+		}
+
+		float w = chart_width / (float)months.length;
 		for(int i = 0 ; i < months.length ;  i ++)
 		{
-			float x = map1(i, 0, months.length, 0, width);
-			rect(x, height, w, -rainfall[i]);
+			fill(255,255,255);
+			float x = map1(i, 0, months.length, 40, 450);
+			rect(x, 450, w, -rainfall[i]);
 		}
 	}
 }
