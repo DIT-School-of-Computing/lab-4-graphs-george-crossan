@@ -14,9 +14,6 @@ public class Arrays extends PApplet
 	int minIndex;
 
 	int mode = 0;
-	boolean lock = true;
-
-
 
 	public float map1(float a, float b, float c, float d, float e)
 	{
@@ -216,7 +213,8 @@ public class Arrays extends PApplet
 					total_angle += angle;
 
 					fill(255);
-					text(months[i],center_width + cos((angle + total_angle) / 2) * 150,center_height + sin((angle + total_angle) / 2) * 150);
+					float distance = dist(center_width,center_height,width * .29f,height * .29f);
+					text(months[i],center_width + cos(total_angle - (angle / 2)) * distance,center_height + sin(total_angle -(angle / 2)) * distance);
 				}
 			}
 		}
